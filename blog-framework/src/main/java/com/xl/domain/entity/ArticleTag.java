@@ -19,9 +19,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @NoArgsConstructor
 @TableName("sg_article_tag")
 public class ArticleTag  {
-    //文章id@TableId
+    //文章id
+     @TableId
     private Long articleId;
-    //标签id@TableId
+    //标签id
+     @TableId
     private Long tagId;
 
 

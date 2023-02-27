@@ -19,9 +19,11 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @NoArgsConstructor
 @TableName("sys_user_role")
 public class UserRole  {
-    //用户ID@TableId
+    //用户ID
+     @TableId
     private Long userId;
-    //角色ID@TableId
+    //角色ID
+    @TableId
     private Long roleId;
 
 
