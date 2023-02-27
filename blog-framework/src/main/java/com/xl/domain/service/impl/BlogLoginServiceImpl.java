@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class BlogLoginServiceImpl implements BlogLoginService {
@@ -37,8 +38,8 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         Long id = loginUser.getUser().getId();
         String jwt = JwtUtil.createJWT(id.toString());
-        //封装用户信息到redis
-        redisCache.setCacheObject("blog_login_userId_" + id,loginUser);
+        //封装用户信息到redis 12 小时退出
+        redisCache.setCacheObject("blog_login_userId_" + id,loginUser,12, TimeUnit.HOURS);
         //返回vo给前端
         UserInfoVo userInfoVo = BeanCopyUtils.copyBean(loginUser, UserInfoVo.class);
         BlogUserLoginVo blogUserLoginVo = new BlogUserLoginVo(jwt, userInfoVo);
