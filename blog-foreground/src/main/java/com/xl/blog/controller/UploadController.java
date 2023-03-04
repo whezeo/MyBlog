@@ -13,7 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 public class UploadController {
     @Autowired
-    private UploadService uploadService;    @PostMapping("/upload")
+    private UploadService uploadService;
+    @PostMapping("/upload")
     public ResponseResult uploadImg(MultipartFile img)
     {
         return uploadService.uploadImg(img);

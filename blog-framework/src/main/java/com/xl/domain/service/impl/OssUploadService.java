@@ -12,6 +12,7 @@ import com.xl.domain.ResponseResult;
 import com.xl.domain.enums.AppHttpCodeEnum;
 import com.xl.domain.exception.SystemException;
 import com.xl.domain.service.UploadService;
+import com.xl.domain.utils.CosUtils;
 import com.xl.domain.utils.PathUtils;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -27,19 +28,19 @@ import java.io.InputStream;
 @Data
 @ConfigurationProperties(prefix = "oss")
 public class OssUploadService implements UploadService {
+    private static String orginFilePath ="blog/";
     @Override
     public ResponseResult uploadImg(MultipartFile img) {
         //判断文件类型
         //获取原始文件名
         String originalFilename = img.getOriginalFilename();
         //对原始文件名进行判断
-        if(!originalFilename.endsWith(".png")){
-            throw new SystemException(AppHttpCodeEnum.FILE_TYPE_ERROR);
-        }
-
+//        if(!originalFilename.endsWith(".png")){
+//            throw new SystemException(AppHttpCodeEnum.FILE_TYPE_ERROR);
+//        }
         //如果判断通过上传文件到OSS
-        String filePath = PathUtils.generateFilePath(originalFilename);
-        String url = uploadOss(img,filePath);
+//      String filePath = PathUtils.generateFilePath(originalFilename);
+        String url = CosUtils.uploadFile(img,orginFilePath);
         //  2099/2/3/wqeqeqe.png
         return ResponseResult.okResult(url);
     }

@@ -9,6 +9,7 @@ import java.util.Date;
 
 /**
  * mp自动填充字段
+ * @author liveb
  */
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
@@ -19,17 +20,32 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             userId = SecurityUtils.getUserId();
         } catch (Exception e) {
             e.printStackTrace();
-            userId = -1L;//表示是自己创建
+            userId = 0L;
+            //表示是自己创建
+        }
+        if(userId==null){
+            userId=0L;
         }
         this.setFieldValByName("createTime", new Date(), metaObject);
-        this.setFieldValByName("createBy",userId , metaObject);
+        this.setFieldValByName("createBy",userId, metaObject);
         this.setFieldValByName("updateTime", new Date(), metaObject);
         this.setFieldValByName("updateBy", userId, metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
+        Long userId = null;
+        try {
+            userId = SecurityUtils.getUserId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            userId = 0L;
+            //表示是自己创建
+        }
+        if(userId==null){
+            userId=0L;
+        }
         this.setFieldValByName("updateTime", new Date(), metaObject);
-        this.setFieldValByName(" ", SecurityUtils.getUserId(), metaObject);
+        this.setFieldValByName(" ", userId, metaObject);
     }
 }
